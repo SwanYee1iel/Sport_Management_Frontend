@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // ADDED Link here
 import './Login.css';

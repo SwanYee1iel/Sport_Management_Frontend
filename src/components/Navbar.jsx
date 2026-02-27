@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable no-undef */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Navbar.css';

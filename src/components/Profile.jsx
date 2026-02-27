@@ -58,7 +58,7 @@ export default function Profile() {
         setLoading(false); // Staff/Admin load instantly
       }
     }
-  }, []);
+  }, [currentUser]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
