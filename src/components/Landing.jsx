@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Landing.css';
+// Use the variable that is actually in your .env file
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Landing() {
   return (

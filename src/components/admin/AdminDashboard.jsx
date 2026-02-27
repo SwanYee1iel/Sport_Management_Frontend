@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import './AdminDashboard.css';
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+// Use the variable that is actually in your .env file
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminDashboard() {
   // Initialize state with the new 'trends' array from your backend

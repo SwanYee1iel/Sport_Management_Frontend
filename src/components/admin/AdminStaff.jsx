@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import './AdminStaff.css'; // Ensure you create this file
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+// Use the variable that is actually in your .env file
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminStaff() {
   const [staffs, setStaffs] = useState([]);
