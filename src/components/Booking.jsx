@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import './Booking.css';
-
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const timeToMinutes = (timeStr) => {
   if (!timeStr) return 0;

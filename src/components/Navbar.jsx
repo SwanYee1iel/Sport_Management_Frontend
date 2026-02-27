@@ -3,6 +3,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Navbar.css';
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Navbar() {
   const location = useLocation();

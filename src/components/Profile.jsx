@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import './Register.css';
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AVAILABLE_SPORTS = ['Football', 'Basketball', 'Tennis', 'Badminton', 'Volleyball', 'Swimming'];
 

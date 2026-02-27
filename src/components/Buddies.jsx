@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Buddies.css'; 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Buddies() {
   const [buddies, setBuddies] = useState([]);

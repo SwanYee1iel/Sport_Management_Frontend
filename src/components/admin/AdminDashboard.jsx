@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import './AdminDashboard.css';
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminDashboard() {
   // Initialize state with the new 'trends' array from your backend

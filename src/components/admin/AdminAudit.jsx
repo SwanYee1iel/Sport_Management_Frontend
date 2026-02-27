@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AdminAudit.css';
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AdminAudit() {
   const [logs, setLogs] = useState([]);
