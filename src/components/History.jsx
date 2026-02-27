@@ -1,24 +1,21 @@
 import { useState, useEffect } from 'react';
 import './History.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
+import { getStoredUser } from '../utils/auth';
 
 export default function BookingHistory() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchHistory = async () => {
-      const userData = JSON.parse(localStorage.getItem('user'));
+      const userData = getStoredUser();
       if (!userData || !userData.id) {
         setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/user/${userData.id}`);
+        const response = await fetch(`http://localhost:5001/api/bookings/user/${userData.id}`);
         const data = await response.json();
         if (Array.isArray(data)) setBookings(data);
       } catch (error) {

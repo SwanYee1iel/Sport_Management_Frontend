@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import './Facilities.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function Facilities() {
   const [facilities, setFacilities] = useState([]); // Start with empty array
@@ -12,7 +9,7 @@ export default function Facilities() {
     // This function runs automatically when the page loads
     const fetchFacilities = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/facilities`);
+        const response = await fetch('http://localhost:5001/api/facilities');
         const data = await response.json();
         setFacilities(data);
         setLoading(false);

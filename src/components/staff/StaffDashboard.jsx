@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
 import './StaffDashboard.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function StaffDashboard() {
   const [pendingBookings, setPendingBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-
   
   // State for the Image Viewer Modal
   const [viewSlip, setViewSlip] = useState(null);
@@ -18,7 +14,7 @@ export default function StaffDashboard() {
 
   const fetchPendingBookings = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/pending`);
+      const response = await fetch('http://localhost:5001/api/bookings/pending');
       const data = await response.json();
       setPendingBookings(data);
     } catch (error) {
@@ -35,7 +31,7 @@ export default function StaffDashboard() {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${bookingId}/status`, {
+      const response = await fetch(`http://localhost:5001/api/bookings/${bookingId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -132,7 +128,7 @@ export default function StaffDashboard() {
             <div className="slip-image-container">
               {/* Load the image directly from the backend uploads folder */}
               <img 
-                src={`${import.meta.env.VITE_API_BASE_URL}/uploads/slips/${viewSlip}`} 
+                src={`http://localhost:5001/uploads/slips/${viewSlip}`} 
                 alt="Payment Slip" 
                 className="slip-img"
               />

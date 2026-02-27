@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import './AdminDashboard.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function AdminDashboard() {
   // Initialize state with the new 'trends' array from your backend
@@ -12,10 +9,9 @@ export default function AdminDashboard() {
   const [currentRate, setCurrentRate] = useState(0);
 const [newRate, setNewRate] = useState('');
 
-
   useEffect(() => {
   // Fetch Analytics (Your existing code)
-  fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/analytics`)
+  fetch('http://localhost:5001/api/admin/analytics')
     .then(res => res.json())
     .then(data => {
       setStats(data);
@@ -23,7 +19,7 @@ const [newRate, setNewRate] = useState('');
     });
 
   // NEW: Fetch Current Price Configuration
-  fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/config`)
+  fetch('http://localhost:5001/api/admin/config')
     .then(res => res.json())
     .then(data => {
       if (data && data.Hourly_Rate) {
@@ -38,7 +34,7 @@ const handlePriceUpdate = async (e) => {
   if (!newRate || newRate <= 0) return alert("Please enter a valid rate.");
 
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/config`, {
+    const response = await fetch('http://localhost:5001/api/admin/config', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Hourly_Rate: Number(newRate) })

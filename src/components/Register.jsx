@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import './Register.css';
 import { useNavigate } from 'react-router-dom'; 
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 // Define the sports available in your facility
 const AVAILABLE_SPORTS = [
@@ -68,9 +65,7 @@ export default function Register() {
       dataToSend.append('Phone_Number', formData.Phone_Number);
       
       // 3. Stringify the Interests array (FormData only sends strings/blobs)
-      formData.Interests.forEach((sport) => {
-  dataToSend.append('Interests', sport);
-});
+      dataToSend.append('Interests', JSON.stringify(formData.Interests));
 
       // 4. Append the image file if it exists
       if (formData.Profile_Picture) {
@@ -79,7 +74,7 @@ export default function Register() {
 
       // 5. Send request WITHOUT the 'Content-Type' header 
       // (The browser will automatically set the boundary for FormData)
-      const response = await fetch('/api/register', {
+      const response = await fetch('http://localhost:5001/api/register', {
         method: 'POST',
         body: dataToSend, 
       });

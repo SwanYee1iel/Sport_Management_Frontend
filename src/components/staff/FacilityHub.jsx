@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import './FacilityHub.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
+import { getStoredUser } from '../../utils/auth';
 
 export default function FacilityHub() {
   const [courts, setCourts] = useState([]);
@@ -10,14 +8,13 @@ export default function FacilityHub() {
   const [reportingIssue, setReportingIssue] = useState(null); // Stores court being reported
   const [issueDesc, setIssueDesc] = useState('');
 
-
   useEffect(() => {
     fetchCourts();
   }, []);
 
   const fetchCourts = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/courts`);
+      const res = await fetch('http://localhost:5001/api/courts');
       const data = await res.json();
       setCourts(data);
     } catch (err) {
@@ -30,7 +27,7 @@ export default function FacilityHub() {
   const toggleStatus = async (courtId, currentStatus) => {
     const newStatus = currentStatus === 'Available' ? 'Maintenance' : 'Available';
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/courts/${courtId}/status`, {
+      const res = await fetch(`http://localhost:5001/api/courts/${courtId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ Status: newStatus }),
@@ -44,11 +41,11 @@ const handleReportIssue = async (e) => {
   e.preventDefault();
   
   // 1. Get the current staff member's data from localStorage
-  const savedUser = JSON.parse(localStorage.getItem('user'));
+  const savedUser = getStoredUser();
   const staffId = savedUser?.id; // This is the ID you need!
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issues`, {
+    const res = await fetch('http://localhost:5001/api/issues', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

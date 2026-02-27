@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import './Buddies.css'; 
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
+import { getStoredUser } from '../utils/auth';
 
 export default function Buddies() {
   const [buddies, setBuddies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = JSON.parse(localStorage.getItem('user'));
-
+  const currentUser = getStoredUser();
 
   useEffect(() => {
     if (currentUser?.id) {
-      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/${currentUser.id}/buddies`)
+      fetch(`http://localhost:5001/api/users/${currentUser.id}/buddies`)
         .then(res => res.json())
         .then(data => {
           setBuddies(data);
@@ -43,7 +40,7 @@ export default function Buddies() {
                 <div className="buddy-avatar-wrapper">
                 {buddy.Profile_Picture ? (
                     <img 
-                    src={`${import.meta.env.VITE_API_BASE_URL}/uploads/profiles/${buddy.Profile_Picture}`} 
+                    src={`http://localhost:5001/uploads/profiles/${buddy.Profile_Picture}`} 
                     alt={buddy.User_Name} 
                     className="buddy-avatar" 
                     />

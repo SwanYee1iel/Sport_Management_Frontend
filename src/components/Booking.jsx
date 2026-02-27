@@ -1,9 +1,6 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import './Booking.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
+import { getStoredUser } from '../utils/auth';
 
 const timeToMinutes = (timeStr) => {
   if (!timeStr) return 0;
@@ -46,9 +43,9 @@ export default function Booking() {
     const fetchData = async () => {
       try {
         const [sportsRes, courtsRes, configRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sports`),
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/api/courts`),
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/config`) // NEW: Fetch Admin Price
+          fetch('http://localhost:5001/api/sports'),
+          fetch('http://localhost:5001/api/courts'),
+          fetch('http://localhost:5001/api/admin/config') // NEW: Fetch Admin Price
         ]);
         const sportsData = await sportsRes.json();
         const courtsData = await courtsRes.json();
@@ -72,7 +69,7 @@ export default function Booking() {
 
   useEffect(() => {
     if (selectedDate && bookingDetails?._id) {
-      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/court/${bookingDetails._id}/date/${selectedDate}`)
+      fetch(`http://localhost:5001/api/bookings/court/${bookingDetails._id}/date/${selectedDate}`)
         .then(res => res.json())
         .then(data => setBookedIntervals(data))
         .catch(err => console.error("Error fetching availability:", err));
@@ -138,7 +135,7 @@ export default function Booking() {
       return;
     }
 
-    const userData = JSON.parse(localStorage.getItem('user'));
+    const userData = getStoredUser();
     if (!userData || !userData.id) {
       alert("Please log in to complete your booking.");
       return;
@@ -162,7 +159,7 @@ export default function Booking() {
     formData.append('slipImage', slipImage); 
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {
+      const response = await fetch('http://localhost:5001/api/bookings', {
         method: 'POST',
         body: formData, 
       });
@@ -203,7 +200,7 @@ export default function Booking() {
                 onClick={() => setSelectedSport(sport)}
               >
                 <div className="pill-icon">
-                  <img src={`${import.meta.env.VITE_API_BASE_URL}/uploads/sports/${sport.Sports_Image}`} alt="" />
+                  <img src={`http://localhost:5001/uploads/sports/${sport.Sports_Image}`} alt="" />
                 </div>
                 <span>{sport.Sports_Name}</span>
               </button>
@@ -214,13 +211,13 @@ export default function Booking() {
         <div className="arena-section">
           <div className="arena-header">
             <h2>{selectedSport?.Sports_Name} Facilities</h2>
-            <div className="arena-count">{courts.filter(c => (c.Sports_ID?._id || c.Sports_ID) === selectedSport?._id).length} Arenas Available</div>
+            <div className="arena-count">{courts.filter(c => c.Sports_ID?._id === selectedSport?._id).length} Arenas Available</div>
           </div>
           
           <div className="arena-grid">
             {courts
-  .filter(court => (court.Sports_ID?._id || court.Sports_ID) === selectedSport?._id)
-  .map(court => (
+              .filter(court => court.Sports_ID?._id === selectedSport?._id)
+              .map(court => (
                 <div key={court._id} className="arena-card">
                   <div className="arena-card-top">
                     <span className="arena-id">{court.Court_Number}</span>

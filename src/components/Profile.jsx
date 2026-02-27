@@ -1,15 +1,15 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import './Register.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
+import { getStoredUser } from '../utils/auth';
 
 const AVAILABLE_SPORTS = ['Football', 'Basketball', 'Tennis', 'Badminton', 'Volleyball', 'Swimming'];
 
 export default function Profile() {
-  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const currentUser = getStoredUser();
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
+  }
   const [loading, setLoading] = useState(true);
   
   const [formData, setFormData] = useState({
@@ -27,9 +27,9 @@ export default function Profile() {
   useEffect(() => {
     if (currentUser?.id) {
       // SMART FETCH: Determine which endpoint to call based on role
-      let endpoint = `${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/users/${currentUser.id}`;
-      if (currentUser.role === 'staff') endpoint = `${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/staff`; // You'll need a GET /api/staff/:id if you want to pre-fill
-      if (currentUser.role === 'admin') endpoint = `${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/admin/config`; // Reusing your config for admin
+      let endpoint = `http://localhost:5001/api/users/${currentUser.id}`;
+      if (currentUser.role === 'staff') endpoint = `http://localhost:5001/api/staff`; // You'll need a GET /api/staff/:id if you want to pre-fill
+      if (currentUser.role === 'admin') endpoint = `http://localhost:5001/api/admin/config`; // Reusing your config for admin
       
       // For simplicity, we can just pre-fill from localStorage to save a database call!
       setFormData(prev => ({
@@ -40,7 +40,7 @@ export default function Profile() {
       
       // If it's a normal user, fetch the extra details (Interests, Picture)
       if (currentUser.role === 'user') {
-        fetch(`${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/users/${currentUser.id}`)
+        fetch(`http://localhost:5001/api/users/${currentUser.id}`)
           .then(res => res.json())
           .then(data => {
             setFormData(prev => ({
@@ -50,7 +50,7 @@ export default function Profile() {
               Interests: data.Interests || []
             }));
             if (data.Profile_Picture) {
-              setImagePreview(`${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/uploads/profiles/${data.Profile_Picture}`);
+              setImagePreview(`http://localhost:5001/uploads/profiles/${data.Profile_Picture}`);
             }
             setLoading(false);
           });
@@ -58,7 +58,7 @@ export default function Profile() {
         setLoading(false); // Staff/Admin load instantly
       }
     }
-  }, [currentUser]);
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -96,7 +96,7 @@ export default function Profile() {
         dataToSend.append('Interests', JSON.stringify(formData.Interests));
         if (formData.Profile_Picture) dataToSend.append('profileImage', formData.Profile_Picture);
 
-        response = await fetch(`${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/users/${currentUser.id}`, {
+        response = await fetch(`http://localhost:5001/api/users/${currentUser.id}`, {
           method: 'PUT',
           body: dataToSend, 
         });
@@ -104,7 +104,7 @@ export default function Profile() {
       // IF STAFF OR ADMIN (Uses JSON, no images)
       else {
         const endpointRole = currentUser.role === 'admin' ? 'admin' : 'staff';
-        response = await fetch(`${import.meta.env.VITE_import.meta.env.VITE_API_BASE_URL}/api/${endpointRole}/${currentUser.id}`, {
+        response = await fetch(`http://localhost:5001/api/${endpointRole}/${currentUser.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

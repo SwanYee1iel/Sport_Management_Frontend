@@ -1,8 +1,5 @@
 import { Link } from 'react-router-dom';
 import './Landing.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function Landing() {
   return (

@@ -1,23 +1,17 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-undef */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { getStoredUser } from '../utils/auth';
 import './Navbar.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    setUser(savedUser ? JSON.parse(savedUser) : null);
+    setUser(getStoredUser());
   }, [location]);
 
   // NEW: Handle clicking outside to close the menu
@@ -98,7 +92,7 @@ export default function Navbar() {
               {/* FIXED: Added onClick and toggleDropdown here */}
               <div className="profile-trigger" onClick={toggleDropdown}>
                 {user.Profile_Image ? (
-                  <img src={`${import.meta.env.VITE_API_BASE_URL}/uploads/profiles/${user.Profile_Image}`} alt="Profile" className="avatar-img" />
+                  <img src={`http://localhost:5001/uploads/profiles/${user.Profile_Image}`} alt="Profile" className="avatar-img" />
                 ) : (
                   <div className="avatar-placeholder">{user.User_Name.charAt(0).toUpperCase()}</div>
                 )}

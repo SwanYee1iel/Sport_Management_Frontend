@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/static-components */
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; 
+import { getStoredUser } from './utils/auth';
 import Navbar from './components/Navbar'; 
 import Landing from './components/Landing';
 import Register from './components/Register';
@@ -16,16 +17,23 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import AdminStaff from './components/admin/AdminStaff'; 
 import AdminAudit from './components/admin/AdminAudit'; 
 
-
 function App() {
   const AdminRoute = ({ children }) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = getStoredUser();
     
     // If no user or the role isn't 'admin', kick them back to login
     if (!user || user.role !== 'admin') {
       return <Navigate to="/login" replace />;
     }
     
+    return children;
+  };
+
+  const AuthRoute = ({ children }) => {
+    const user = getStoredUser();
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
     return children;
   };
 
@@ -43,7 +51,7 @@ function App() {
         <Route path="/history" element={<BookingHistory />} />     
         
         {/* ADDED THE MISSING ACCOUNT ROUTE HERE! */}
-        <Route path="/account" element={<Profile />} /> 
+        <Route path="/account" element={<AuthRoute><Profile /></AuthRoute>} /> 
 
         {/* Staff Routes */}
         <Route path="/staff/dashboard" element={<StaffDashboard />} /> 

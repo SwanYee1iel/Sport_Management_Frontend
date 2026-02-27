@@ -1,17 +1,13 @@
 import { useState, useEffect } from 'react';
 import './AdminAudit.css';
-// Use the variable that is actually in your .env file
-// This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 export default function AdminAudit() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     // Fetching from the backend route that populates Staff and Court details
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/audit-log`)
+    fetch('http://localhost:5001/api/admin/audit-log')
       .then(res => res.json())
       .then(data => {
         setLogs(data);
