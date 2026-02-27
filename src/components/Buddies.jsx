@@ -5,11 +5,11 @@ export default function Buddies() {
   const [buddies, setBuddies] = useState([]);
   const [loading, setLoading] = useState(true);
   const currentUser = JSON.parse(localStorage.getItem('user'));
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     if (currentUser?.id) {
-      fetch(`${API_BASE_URL}/api/users/${currentUser.id}/buddies`)
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/${currentUser.id}/buddies`)
         .then(res => res.json())
         .then(data => {
           setBuddies(data);
@@ -40,7 +40,7 @@ export default function Buddies() {
                 <div className="buddy-avatar-wrapper">
                 {buddy.Profile_Picture ? (
                     <img 
-                    src={`${API_BASE_URL}/uploads/profiles/${buddy.Profile_Picture}`} 
+                    src={`${import.meta.env.VITE_API_BASE_URL}/uploads/profiles/${buddy.Profile_Picture}`} 
                     alt={buddy.User_Name} 
                     className="buddy-avatar" 
                     />

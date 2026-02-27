@@ -96,7 +96,7 @@ export default function Navbar() {
               {/* FIXED: Added onClick and toggleDropdown here */}
               <div className="profile-trigger" onClick={toggleDropdown}>
                 {user.Profile_Image ? (
-                  <img src={`${API_BASE_URL}/uploads/profiles/${user.Profile_Image}`} alt="Profile" className="avatar-img" />
+                  <img src={`${import.meta.env.VITE_API_BASE_URL}/uploads/profiles/${user.Profile_Image}`} alt="Profile" className="avatar-img" />
                 ) : (
                   <div className="avatar-placeholder">{user.User_Name.charAt(0).toUpperCase()}</div>
                 )}

@@ -4,12 +4,12 @@ import './Facilities.css';
 export default function Facilities() {
   const [facilities, setFacilities] = useState([]); // Start with empty array
   const [loading, setLoading] = useState(true);
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     // This function runs automatically when the page loads
     const fetchFacilities = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/facilities`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/facilities`);
         const data = await response.json();
         setFacilities(data);
         setLoading(false);

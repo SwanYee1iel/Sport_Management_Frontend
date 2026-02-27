@@ -4,7 +4,7 @@ import './StaffDashboard.css';
 export default function StaffDashboard() {
   const [pendingBookings, setPendingBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   
   // State for the Image Viewer Modal
   const [viewSlip, setViewSlip] = useState(null);
@@ -15,7 +15,7 @@ export default function StaffDashboard() {
 
   const fetchPendingBookings = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings/pending`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/pending`);
       const data = await response.json();
       setPendingBookings(data);
     } catch (error) {
@@ -32,7 +32,7 @@ export default function StaffDashboard() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings/${bookingId}/status`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/${bookingId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -129,7 +129,7 @@ export default function StaffDashboard() {
             <div className="slip-image-container">
               {/* Load the image directly from the backend uploads folder */}
               <img 
-                src={`${API_BASE_URL}/uploads/slips/${viewSlip}`} 
+                src={`${import.meta.env.VITE_API_BASE_URL}/uploads/slips/${viewSlip}`} 
                 alt="Payment Slip" 
                 className="slip-img"
               />

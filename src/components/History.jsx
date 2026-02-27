@@ -4,7 +4,7 @@ import './History.css';
 export default function BookingHistory() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -15,7 +15,7 @@ export default function BookingHistory() {
       }
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/bookings/user/${userData.id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/user/${userData.id}`);
         const data = await response.json();
         if (Array.isArray(data)) setBookings(data);
       } catch (error) {
