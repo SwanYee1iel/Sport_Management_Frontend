@@ -3,7 +3,7 @@ import './Register.css';
 import { useNavigate } from 'react-router-dom'; 
 // Use the variable that is actually in your .env file
 // This makes the internal variable name match the environment variable name
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://sportconnect.koreacentral.cloudapp.azure.com';
 
 // Define the sports available in your facility
 const AVAILABLE_SPORTS = [
