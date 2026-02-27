@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Facilities.css';
 // Use the variable that is actually in your .env file
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
 
 export default function Facilities() {
   const [facilities, setFacilities] = useState([]); // Start with empty array
