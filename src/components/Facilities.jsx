@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Facilities.css';
+import { apiUrl } from '../utils/api';
 
 export default function Facilities() {
   const [facilities, setFacilities] = useState([]); // Start with empty array
@@ -9,7 +10,7 @@ export default function Facilities() {
     // This function runs automatically when the page loads
     const fetchFacilities = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/facilities');
+        const response = await fetch(apiUrl('/api/facilities'));
         const data = await response.json();
         setFacilities(data);
         setLoading(false);

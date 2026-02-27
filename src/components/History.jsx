@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './History.css';
 import { getStoredUser } from '../utils/auth';
+import { apiUrl } from '../utils/api';
 
 export default function BookingHistory() {
   const [bookings, setBookings] = useState([]);
@@ -15,7 +16,7 @@ export default function BookingHistory() {
       }
 
       try {
-        const response = await fetch(`http://localhost:5001/api/bookings/user/${userData.id}`);
+        const response = await fetch(apiUrl(`/api/bookings/user/${userData.id}`));
         const data = await response.json();
         if (Array.isArray(data)) setBookings(data);
       } catch (error) {

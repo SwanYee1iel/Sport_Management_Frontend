@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // ADDED Link here
 import './Login.css';
+import { apiUrl } from '../utils/api';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5001/api/login', {
+      const response = await fetch(apiUrl('/api/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

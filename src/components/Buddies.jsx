@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Buddies.css'; 
 import { getStoredUser } from '../utils/auth';
+import { apiUrl, uploadUrl } from '../utils/api';
 
 export default function Buddies() {
   const [buddies, setBuddies] = useState([]);
@@ -9,7 +10,7 @@ export default function Buddies() {
 
   useEffect(() => {
     if (currentUser?.id) {
-      fetch(`http://localhost:5001/api/users/${currentUser.id}/buddies`)
+      fetch(apiUrl(`/api/users/${currentUser.id}/buddies`))
         .then(res => res.json())
         .then(data => {
           setBuddies(data);
@@ -40,7 +41,7 @@ export default function Buddies() {
                 <div className="buddy-avatar-wrapper">
                 {buddy.Profile_Picture ? (
                     <img 
-                    src={`http://localhost:5001/uploads/profiles/${buddy.Profile_Picture}`} 
+                    src={uploadUrl(`/uploads/profiles/${buddy.Profile_Picture}`)} 
                     alt={buddy.User_Name} 
                     className="buddy-avatar" 
                     />

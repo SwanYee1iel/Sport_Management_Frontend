@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './StaffDashboard.css';
+import { apiUrl, uploadUrl } from '../../utils/api';
 
 export default function StaffDashboard() {
   const [pendingBookings, setPendingBookings] = useState([]);
@@ -14,7 +15,7 @@ export default function StaffDashboard() {
 
   const fetchPendingBookings = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/bookings/pending');
+      const response = await fetch(apiUrl('/api/bookings/pending'));
       const data = await response.json();
       setPendingBookings(data);
     } catch (error) {
@@ -31,7 +32,7 @@ export default function StaffDashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5001/api/bookings/${bookingId}/status`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -128,7 +129,7 @@ export default function StaffDashboard() {
             <div className="slip-image-container">
               {/* Load the image directly from the backend uploads folder */}
               <img 
-                src={`http://localhost:5001/uploads/slips/${viewSlip}`} 
+                src={uploadUrl(`/uploads/slips/${viewSlip}`)} 
                 alt="Payment Slip" 
                 className="slip-img"
               />

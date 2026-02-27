@@ -2,6 +2,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getStoredUser } from '../utils/auth';
+import { uploadUrl } from '../utils/api';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -92,7 +93,7 @@ export default function Navbar() {
               {/* FIXED: Added onClick and toggleDropdown here */}
               <div className="profile-trigger" onClick={toggleDropdown}>
                 {user.Profile_Image ? (
-                  <img src={`http://localhost:5001/uploads/profiles/${user.Profile_Image}`} alt="Profile" className="avatar-img" />
+                  <img src={uploadUrl(`/uploads/profiles/${user.Profile_Image}`)} alt="Profile" className="avatar-img" />
                 ) : (
                   <div className="avatar-placeholder">{user.User_Name.charAt(0).toUpperCase()}</div>
                 )}

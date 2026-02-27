@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './Register.css';
 import { useNavigate } from 'react-router-dom'; 
+import { apiUrl } from '../utils/api';
 
 // Define the sports available in your facility
 const AVAILABLE_SPORTS = [
@@ -74,7 +75,7 @@ export default function Register() {
 
       // 5. Send request WITHOUT the 'Content-Type' header 
       // (The browser will automatically set the boundary for FormData)
-      const response = await fetch('http://localhost:5001/api/register', {
+      const response = await fetch(apiUrl('/api/register'), {
         method: 'POST',
         body: dataToSend, 
       });

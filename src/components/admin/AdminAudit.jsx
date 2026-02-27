@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AdminAudit.css';
+import { apiUrl } from '../../utils/api';
 
 export default function AdminAudit() {
   const [logs, setLogs] = useState([]);
@@ -7,7 +8,7 @@ export default function AdminAudit() {
 
   useEffect(() => {
     // Fetching from the backend route that populates Staff and Court details
-    fetch('http://localhost:5001/api/admin/audit-log')
+    fetch(apiUrl('/api/admin/audit-log'))
       .then(res => res.json())
       .then(data => {
         setLogs(data);

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import './Register.css';
 import { getStoredUser } from '../utils/auth';
+import { apiUrl, uploadUrl } from '../utils/api';
 
 const AVAILABLE_SPORTS = ['Football', 'Basketball', 'Tennis', 'Badminton', 'Volleyball', 'Swimming'];
 
@@ -27,9 +28,9 @@ export default function Profile() {
   useEffect(() => {
     if (currentUser?.id) {
       // SMART FETCH: Determine which endpoint to call based on role
-      let endpoint = `http://localhost:5001/api/users/${currentUser.id}`;
-      if (currentUser.role === 'staff') endpoint = `http://localhost:5001/api/staff`; // You'll need a GET /api/staff/:id if you want to pre-fill
-      if (currentUser.role === 'admin') endpoint = `http://localhost:5001/api/admin/config`; // Reusing your config for admin
+      let endpoint = apiUrl(`/api/users/${currentUser.id}`);
+      if (currentUser.role === 'staff') endpoint = apiUrl('/api/staff'); // You'll need a GET /api/staff/:id if you want to pre-fill
+      if (currentUser.role === 'admin') endpoint = apiUrl('/api/admin/config'); // Reusing your config for admin
       
       // For simplicity, we can just pre-fill from localStorage to save a database call!
       setFormData(prev => ({
@@ -40,7 +41,7 @@ export default function Profile() {
       
       // If it's a normal user, fetch the extra details (Interests, Picture)
       if (currentUser.role === 'user') {
-        fetch(`http://localhost:5001/api/users/${currentUser.id}`)
+        fetch(apiUrl(`/api/users/${currentUser.id}`))
           .then(res => res.json())
           .then(data => {
             setFormData(prev => ({
@@ -50,7 +51,7 @@ export default function Profile() {
               Interests: data.Interests || []
             }));
             if (data.Profile_Picture) {
-              setImagePreview(`http://localhost:5001/uploads/profiles/${data.Profile_Picture}`);
+              setImagePreview(uploadUrl(`/uploads/profiles/${data.Profile_Picture}`));
             }
             setLoading(false);
           });
@@ -96,7 +97,7 @@ export default function Profile() {
         dataToSend.append('Interests', JSON.stringify(formData.Interests));
         if (formData.Profile_Picture) dataToSend.append('profileImage', formData.Profile_Picture);
 
-        response = await fetch(`http://localhost:5001/api/users/${currentUser.id}`, {
+        response = await fetch(apiUrl(`/api/users/${currentUser.id}`), {
           method: 'PUT',
           body: dataToSend, 
         });
@@ -104,7 +105,7 @@ export default function Profile() {
       // IF STAFF OR ADMIN (Uses JSON, no images)
       else {
         const endpointRole = currentUser.role === 'admin' ? 'admin' : 'staff';
-        response = await fetch(`http://localhost:5001/api/${endpointRole}/${currentUser.id}`, {
+        response = await fetch(apiUrl(`/api/${endpointRole}/${currentUser.id}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

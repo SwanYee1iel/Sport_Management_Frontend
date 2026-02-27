@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './FacilityHub.css';
 import { getStoredUser } from '../../utils/auth';
+import { apiUrl } from '../../utils/api';
 
 export default function FacilityHub() {
   const [courts, setCourts] = useState([]);
@@ -14,7 +15,7 @@ export default function FacilityHub() {
 
   const fetchCourts = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/courts');
+      const res = await fetch(apiUrl('/api/courts'));
       const data = await res.json();
       setCourts(data);
     } catch (err) {
@@ -27,7 +28,7 @@ export default function FacilityHub() {
   const toggleStatus = async (courtId, currentStatus) => {
     const newStatus = currentStatus === 'Available' ? 'Maintenance' : 'Available';
     try {
-      const res = await fetch(`http://localhost:5001/api/courts/${courtId}/status`, {
+      const res = await fetch(apiUrl(`/api/courts/${courtId}/status`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ Status: newStatus }),
@@ -45,7 +46,7 @@ const handleReportIssue = async (e) => {
   const staffId = savedUser?.id; // This is the ID you need!
 
   try {
-    const res = await fetch('http://localhost:5001/api/issues', {
+    const res = await fetch(apiUrl('/api/issues'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
