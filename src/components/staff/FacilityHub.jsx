@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import './FacilityHub.css';
 // Use the variable that is actually in your .env file
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
+// This makes the internal variable name match the environment variable name
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
 
 export default function FacilityHub() {
   const [courts, setCourts] = useState([]);
@@ -47,7 +48,7 @@ const handleReportIssue = async (e) => {
   const staffId = savedUser?.id; // This is the ID you need!
 
   try {
-    const res = await fetch('`${import.meta.env.VITE_API_BASE_URL}/api/issues', {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issues`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

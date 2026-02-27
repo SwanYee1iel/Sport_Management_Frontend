@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import './AdminDashboard.css';
 // Use the variable that is actually in your .env file
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
+// This makes the internal variable name match the environment variable name
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://learning-server-01.japaneast.cloudapp.azure.com';
 
 export default function AdminDashboard() {
   // Initialize state with the new 'trends' array from your backend
@@ -37,7 +38,7 @@ const handlePriceUpdate = async (e) => {
   if (!newRate || newRate <= 0) return alert("Please enter a valid rate.");
 
   try {
-    const response = await fetch('`${import.meta.env.VITE_API_BASE_URL}/api/admin/config', {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/config`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Hourly_Rate: Number(newRate) })
