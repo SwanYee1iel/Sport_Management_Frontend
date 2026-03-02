@@ -1,16 +1,95 @@
-# React + Vite
+# Sport Connect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Project Title**  
+Sport Connect: A Web-Based Sport Facility Management and Buddy Discovery Platform
 
-Currently, two official plugins are available:
+**Project Type**  
+Web Application POC for Senior Project: Yes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Team Members
+1. Saw Min Thant - 671501  
+2. Swan Yee Htet - 6715082
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Problem Statement & Motivation
+**What problem does this system solve?**  
+Managing sports facility bookings and finding partners often involves fragmented manual processes. This system centralizes reservations, provides staff with quick 1-minute payment verification tools, and enables a "Sport Buddy" feature to help users find partners without complex chat systems.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Who is the target user?**  
+Sports enthusiasts looking for facilities/partners, facility staff responsible for daily operations, and administrators managing the business.
+
+**Why does this problem matter?**  
+Inefficient booking leads to empty courts, while the lack of a partner-finding tool reduces community engagement in physical activities.
+
+---
+
+## Project Scope & Features
+- **User Authentication & Social Profiles**: Secure login for Users, Staff, and Admins. Users manage profiles with gender, profile pictures, and multi-sport interests.
+- **Court Reservation System**: Real-time booking with automated price calculation based on duration and sport type.
+- **Sport Buddy Discovery**: A searchable directory where users find partners based on shared interests and contact them via email.
+- **Staff Operations Dashboard**: Tools for verifying payment screenshots, reporting maintenance issues, and toggling court availability.
+- **Admin Analytics & Auditing**: Dashboards to monitor revenue, track "most booked sports," and audit staff performance (who confirmed which booking/issue).
+
+---
+
+## Data Models (CRUD for all entities)
+
+**Entity 1: User**  
+Fields: User_ID, User_Name, password, User_Email, Gender, Phone_Number, Profile_Picture, Interests  
+Operations: Create (Sign-up), Read (Profile), Update (Edit), Delete (Account deletion)
+
+**Entity 2: Staff**  
+Fields: Staff_ID, Staff_Name, Staff_Email, Staff_Password  
+Operations: Create (Admin add), Read (List), Update (Status), Delete (Admin remove)
+
+**Entity 3: Admin**  
+Fields: Admin_ID, Admin_Name, Hourly_Rate (Configuration), Total_Price (Report)  
+Operations: Create, Read, Update (Change rates), Delete
+
+**Entity 4: Booking**  
+Fields: Booking_ID, Date, Start_Time, Duration, Booking_Status, Payment_Method, Created_At  
+Operations: Create (New), Read (History), Update (Status), Delete (Cancel)
+
+**Entity 5: Courts**  
+Fields: Court_ID, Court_Number, Status (Available/Maintenance)  
+Operations: Create, Read, Update (Maintenance toggle), Delete
+
+**Entity 6: Sports**  
+Fields: Sports_ID, Sports_Name  
+Operations: Create, Read, Update, Delete
+
+**Entity 7: Sports_type**  
+Fields: Sports_type_ID, Sports_type_name  
+Operations: Create, Read, Update, Delete
+
+**Entity 8: Payment**  
+Fields: Payment_ID, Payment_Proof, Bank_Details, Payment_Status  
+Operations: Create (Upload), Read, Update (Verify), Delete
+
+**Entity 9: Issues**  
+Fields: Issue_ID, Description, Date_Reported, Issue_Status  
+Operations: Create (Staff report), Read (Admin view), Update (Resolution), Delete
+
+---
+
+## Technology Stack
+- **Frontend**: React.js / Next.js  
+- **Backend**: Node.js with Next.js API Routes  
+- **Database**: MongoDB  
+- **Deployment**: MongoDB Atlas
+
+---
+
+## Credentials (Demo Only)
+- **Admin**:  
+  Email: `admin@sportconnect.com`  
+  Password: `adminpassword123`
+- **Staff**:  
+  Email: `Staff@gmail.com`  
+  Password: `12345678`
+- **User**:  
+  Email: `saw3@gmail.com`  
+  Password: `123456`
